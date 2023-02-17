@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 record Message(String message){}
 @Controller
 public class HelloController {
+
+
 //Method will listen for GET request
     @GetMapping("/hello")
     @ResponseBody
