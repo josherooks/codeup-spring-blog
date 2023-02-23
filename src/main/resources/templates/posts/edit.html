@@ -5,8 +5,8 @@
     <title>Create</title>
 </head>
 <body>
-<form method="POST" action="/posts/create" th:object="${post}">
-    <h1>Create New Post</h1>
+<form method="POST" th:action="@{post/{id}/edit (id = ${post.id})}" th:object="${post}">
+    <h1>Edit Post</h1>
     <label for="title">Title: </label>
     <input type="text" th:field="*{title}" id="title">
     <label for="body">Body: </label>

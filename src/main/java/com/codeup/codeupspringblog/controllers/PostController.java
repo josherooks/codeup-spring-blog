@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Controller
 public class PostController {
 
@@ -23,31 +24,43 @@ public class PostController {
     }
 
     @GetMapping("/posts")
-    public String showPosts(Model model){
+    public String showPosts(Model model) {
 
         model.addAttribute("allPosts", postDao.findAll());
         return "posts/index";
     }
 
     @GetMapping("/posts/{id}")
-    public String singlePost(@PathVariable long id, Model model){
+    public String singlePost(@PathVariable long id, Model model) {
         model.addAttribute("post", postDao.findById(id).get());
         return "posts/show";
     }
 
     @GetMapping("/posts/create")
-    public String postCreateForm(){
+    public String postCreateForm(Model model) {
+        model.addAttribute("post", new Post());
         return "posts/create";
     }
 
     @PostMapping(path = "/posts/create")
-    public String postCreateSubmit(@RequestParam String title, @RequestParam String body){
-        Post newPost = new Post(title, body, userDao.findById(1L).get());
-
-        postDao.save(newPost);
+    public String postCreateSubmit(@ModelAttribute Post post) {
+        post.setUser(userDao.findById(1L).get());
+        postDao.save(post);
 
         return "redirect:/posts";
     }
 
+    @GetMapping("/posts/{id}/edit")
+    public String showEditForm(@PathVariable long id, Model model) {
+        Post postToEdit = postDao.findById(id).get();
+        model.addAttribute("post", postToEdit);
+        return "posts/edit";
+    }
 
+    @PostMapping("/post/{id}/edit")
+    public String submitPostChanges(@PathVariable long id, @ModelAttribute Post post) {
+        post.setUser(userDao.findById(1L).get());
+        postDao.save(post);
+        return "redirect:/post/" + id;
+    }
 }
