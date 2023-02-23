@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Pick a number!</h1>
+<button><a href = "/roll-dice/1" type="button">1</a></button>
+<button><a href = "/roll-dice/2" type="button">2</a></button>
+<button><a href = "/roll-dice/3" type="button">3</a></button>
+<button><a href = "/roll-dice/4" type="button">4</a></button>
+<button><a href = "/roll-dice/5" type="button">5</a></button>
+<button><a href = "/roll-dice/6" type="button">6</a></button>
+
+<h1>Your number is:  <span th:text="${n}"></span></h1>
+<h1>Winning number is : <span th:text="${randomNum}"></span></h1>
+<h1><span th:text="${result}"></span></h1>
+</body>
+</html>

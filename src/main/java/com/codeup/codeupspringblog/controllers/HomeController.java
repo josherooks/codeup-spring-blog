@@ -1,4 +1,4 @@
-package com.codeup.codeupspringblog;
+package com.codeup.codeupspringblog.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +11,11 @@ public class HomeController {
     @ResponseBody
     public String home(){
         return "<h1>This is your home page!</h1>";
+    }
+
+    @GetMapping("/home")
+    public String welcome() {
+        return "home";
     }
 
 }
