@@ -3,6 +3,7 @@ package com.codeup.codeupspringblog.controllers;
 import com.codeup.codeupspringblog.models.Post;
 import com.codeup.codeupspringblog.repositories.PostRepository;
 import com.codeup.codeupspringblog.repositories.UserRepository;
+import com.codeup.codeupspringblog.services.PostDaoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,25 +15,22 @@ import java.util.List;
 @Controller
 public class PostController {
 
-    private PostRepository postDao;
+    private final PostDaoService postService;
 
-    private UserRepository userDao;
-
-    public PostController(PostRepository postDao, UserRepository userDao) {
-        this.postDao = postDao;
-        this.userDao = userDao;
+    public PostController(PostDaoService postService) {
+        this.postService = postService;
     }
 
     @GetMapping("/posts")
     public String showPosts(Model model) {
 
-        model.addAttribute("allPosts", postDao.findAll());
+        model.addAttribute("allPosts", postService.getAllPost());
         return "posts/index";
     }
 
     @GetMapping("/posts/{id}")
     public String singlePost(@PathVariable long id, Model model) {
-        model.addAttribute("post", postDao.findById(id).get());
+        model.addAttribute("post", postService.getPostById(id));
         return "posts/show";
     }
 
@@ -44,23 +42,21 @@ public class PostController {
 
     @PostMapping(path = "/posts/create")
     public String postCreateSubmit(@ModelAttribute Post post) {
-        post.setUser(userDao.findById(1L).get());
-        postDao.save(post);
+        postService.savePost(post);
 
         return "redirect:/posts";
     }
 
     @GetMapping("/posts/{id}/edit")
     public String showEditForm(@PathVariable long id, Model model) {
-        Post postToEdit = postDao.findById(id).get();
+        Post postToEdit = postService.getPostById(id);
         model.addAttribute("post", postToEdit);
         return "posts/edit";
     }
 
     @PostMapping("/post/{id}/edit")
     public String submitPostChanges(@PathVariable long id, @ModelAttribute Post post) {
-        post.setUser(userDao.findById(1L).get());
-        postDao.save(post);
+        postService.savePost(post);
         return "redirect:/post/" + id;
     }
 }

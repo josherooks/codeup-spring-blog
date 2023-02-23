@@ -7,8 +7,7 @@ import java.util.List;
 
 @Entity
 
-@Table(name = "ads")
-
+@Table(name="ads")
 
 public class Ad {
     @Id
@@ -21,26 +20,44 @@ public class Ad {
     @Column(nullable = false)
     private String description;
 
-    public Ad() {}
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ad")
     private List<AdImage> images;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "ads_categories",
+    @JoinTable(
+            name = "ads_categories",
             joinColumns = {@JoinColumn(name = "ad_id")},
-            inverseJoinColumns = {@JoinColumn(name = "category_id")})
-
+            inverseJoinColumns = {@JoinColumn(name = "category_id")}
+    )
     private List<AdCategory> categories;
+    @ManyToOne
+    private User owner;
 
+    public Ad(){};
 
-    public Ad(long id, String title, String description) {
+    public Ad(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
+
+    public Ad(long id, String title, String description){
         this.id = id;
         this.title = title;
         this.description = description;
     }
 
-    public Ad(String title, String description) {
+    public Ad(String title, String description, User owner) {
+        this.title = title;
+        this.description = description;
+        this.owner = owner;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 
     public List<AdImage> getImages() {
@@ -81,5 +98,16 @@ public class Ad {
 
     public void setCategories(List<AdCategory> categories) {
         this.categories = categories;
+    }
+
+    @Override
+    public String toString() {
+        return "Ad{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", images=" + images +
+                ", categories=" + categories +
+                '}';
     }
 }

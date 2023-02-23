@@ -10,27 +10,39 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     @Column(nullable = false, length = 50, unique = true)
-    private String userName;
-
-    @Column(nullable = false, unique = true)
-    private String email;
-
+    private String username;
     @Column(nullable = false)
     private String password;
-
-    public User() {}
-
+    @Column(nullable = false, unique = true)
+    private String email;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Post> posts;
 
-    public User(String userName, String email, String password) {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    private List<Ad> ads;
 
-        this.userName = userName;
-        this.email = email;
+    public User() {};
+
+    public User(User copy) {
+        id = copy.id;
+        email = copy.email;
+        username = copy.username;
+        password = copy.password;
+    }
+
+    public User(String username, String password, String email) {
+        this.username = username;
         this.password = password;
+        this.email = email;
+    }
 
+    public List<Ad> getAds() {
+        return ads;
+    }
+
+    public void setAds(List<Ad> ads) {
+        this.ads = ads;
     }
 
     public long getId() {
@@ -41,20 +53,12 @@ public class User {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -63,6 +67,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public List<Post> getPosts() {

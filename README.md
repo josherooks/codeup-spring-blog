@@ -10,6 +10,7 @@ Technologies Involved:
   - Spring JPA Data
   - Spring Web
   - Maven
+  - Spring Security
 - Thymeleaf
 - Java 17
 - MySQL 8
