@@ -48,18 +48,25 @@ public class SecurityConfiguration {
                 // provide a logout method
                 .logout()
                 // when a post request is made to /logout, redirect to /login?logout (login page)
-                .logoutSuccessUrl("/login?logout")
+                .logoutSuccessUrl("/")
                 .and()
                 /* Pages that can be viewed without loggin in */
                 // allow requests to the following:
                 .authorizeHttpRequests()
-                .requestMatchers("/", "/ads") // anyone can visit the home page and the ads index page.
+                .requestMatchers("/", "/ads", "/posts","/sign-up") // anyone can visit the home page and the ads index page.
                 .permitAll()
                 /* Pages that need a logged in user */
                 .and()
                 // allow requests to the following:
                 .authorizeHttpRequests()
-                .requestMatchers("/ads/create", "/ads/{id}/edit", "/ads/{id}/delete")
+                .requestMatchers(
+                        "/posts/create", // only authenticated users can create ads
+                        "/ads/create", // only authenticated users can edit ads
+                        "/ads/{id}/edit",
+                        "/ads/{id}",
+                        "/posts/{id}",
+                        "/posts/{id}/edit"
+                )
                 .authenticated();
 
         // build the security filter that we just configured above.

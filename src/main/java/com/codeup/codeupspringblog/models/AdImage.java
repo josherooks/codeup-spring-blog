@@ -17,7 +17,7 @@ public class AdImage {
     @JoinColumn(name = "ad_id")
     private Ad ad;
 
-    public AdImage(){};
+    public AdImage(String s, Ad ad){};
 
     public long getId() {
         return id;
